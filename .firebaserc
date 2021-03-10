@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "ntprobnp-942ea"
+  },
+  "targets": {
+    "ntprobnp-942ea": {
+      "hosting": {
+        "mau": [
+          "article-master"
+        ]
+      }
+    }
+  }
+}
