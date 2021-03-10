@@ -29,11 +29,13 @@
     <div class="textContainer">
       <div class="cvt" v-show="challengeFlag">
         <span v-for="(element, index) in convertedText" :key="index">
+          <!-- show when the user has provided an article -->
           <span
             v-show="element.ans != ''"
             :class="{
               mrg10: true,
-              ans: (element.ans !== element.article) & ansFlag || !ansFlag,
+              missedAns: (element.ans !== element.article) & ansFlag,
+              ans: !ansFlag,
               match: (element.ans === element.article) & ansFlag,
             }"
           >
@@ -353,6 +355,13 @@ pvButton,
   color: yellow;
   background-color: red;
 }
+
+.missedAns {
+  font-style: bold;
+  color: white;
+  background-color: black;
+}
+
 .ans {
   color: white;
   background-color: green;
