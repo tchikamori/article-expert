@@ -1,6 +1,6 @@
 <template>
   <h1>{{ lblTitle }}</h1>
-  <div>
+  <div >
     <a :href="instUrl" target="_blank" class="mrg5r">Usage Instruction </a>
     <pvDropdown
       v-model="languageKey"
@@ -9,6 +9,9 @@
       placeholder="Choose language"
       class="mrg5r"
     />
+    <pvButton v-if="bClipB" @click="qconvert" class="mrg5r p-error">
+      {{ lblQChallenge }}
+    </pvButton>
   </div>
   <div>
     <p class="p-d-flex p-jc-center">
@@ -88,6 +91,7 @@ export default {
       ansFlag: false,
       challengeFlag: false,
       selectedIndex: -1,
+      bClipB: false,
       items: [
         {
           label: "the",
@@ -168,7 +172,7 @@ export default {
         return;
       }
       this.originalText = this.originalText.replace(/\n+/g, " [CR] ");
-      console.log(this.originalText)
+      console.log(this.originalText);
 
       let convertedText = this.originalText.split(/\s+/);
       let cto = [];
@@ -226,6 +230,12 @@ export default {
       this.challengeFlag = true;
       this.convertedText = cto;
     },
+    qconvert: function () {
+      navigator.clipboard.readText().then((clipText) => {
+        this.originalText = clipText;
+        this.convert();
+      });
+    },
     onWordRightClick: function (index, event) {
       this.selectedIndex = index;
       this.$refs.menu.show(event);
@@ -278,6 +288,13 @@ export default {
       };
       return o[this.languageKey.code];
     },
+    lblQChallenge() {
+      const o = {
+        JA: "クイックチャレンジ",
+        EN: "Quick Challenge",
+      };
+      return o[this.languageKey.code];
+    },
     lblTitle() {
       const o = {
         JA: "冠詞練習帳",
@@ -301,6 +318,11 @@ export default {
       };
       return o[this.languageKey.code];
     },
+  },
+  created() {
+    if (navigator.clipboard) {
+      this.bClipB = true;
+    }
   },
 };
 </script>
@@ -328,7 +350,8 @@ a {
   margin: auto;
   display: inline-flex;
   flex-wrap: wrap;
-  padding: 5px;
+  padding: 10px;
+  border-radius: 25px;
 }
 .orgt {
   display: block;
